@@ -5,7 +5,7 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express');
 const morgan = require('morgan');
 
-// require('./db/database');
+require('./db/database');
 
 const app = express();
 
@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 /*                    Rutas                      */
-// app.use('/api/libros', require('./routes/libros'));
+app.use('/api', require('./routes/usuarioRoutes'));
 
 // Escucha en el puerto establecido
 app.listen(app.get('port'), () => {
