@@ -23,7 +23,7 @@ controller.guardarUsuario = async (req, res) => {
     usuario.cargo = 'ROLE_USER';
     usuario.imagen = null;
 
-    const usuarioDuplicado = await Usuario.find({ $or: [{correo: usuario.correo.toLowerCase()}, {nombreUsuario: usuario.nombreUsuario.toLowerCase()}] });
+    const usuarioDuplicado = await Usuario.find({ $or: [{ correo: usuario.correo.toLowerCase() }, { nombreUsuario: usuario.nombreUsuario.toLowerCase() }] });
 
     // Control de usuarios duplicados
     if (usuarioDuplicado.length >= 1 ) {
@@ -33,7 +33,7 @@ controller.guardarUsuario = async (req, res) => {
       res.status(200).json({ usuario });
     }
   } else {
-    res.status(200).json({ mensaje: "¡Debe enviar todos los campos necesarios!" });
+    res.status(200).json({ mensaje: "¡Debes enviar todos los campos necesarios!" });
   }
 }
 
@@ -79,14 +79,14 @@ controller.obtenerUsuario = async (req, res) => {
   }
 }
 
-controller.obtenerUsuarios = async (req, res) => {
+controller.obtenerUsuarios = (req, res) => {
   // const { sub } = req.usuario;
   let pagina = 1;
   let elementosPorPagina = 5;
 
   if (req.params.pagina) pagina = req.params.pagina;
 
-  await Usuario.find().sort('_id').paginate(pagina, elementosPorPagina, (error, usuarios, total) => {
+  Usuario.find().sort('_id').paginate(pagina, elementosPorPagina, (error, usuarios, total) => {
     if (error) return res.status(500).json({ mensaje: 'Error en la petición' });
 
     if (!usuarios) return res.status(404).json({ mensaje: '¡No existen usuarios disponibles!' });
@@ -106,7 +106,7 @@ controller.actualizarUsuario = async(req, res) => {
   delete req.body.contrasena;
 
   // Controla que no se pueda editar los datos de otro usuario
-  if (idUsuario != req.usuario.sub) return res.status(500).json({ mensaje: '¡No tiene permisos para actualizar los datos del usuario!' });
+  if (idUsuario != req.usuario.sub) return res.status(500).json({ mensaje: '¡No tienes permisos para actualizar los datos de este usuario!' });
 
   try {
     const usuarioActualizado = await Usuario.findByIdAndUpdate(idUsuario, req.body, {new:true});
@@ -130,7 +130,7 @@ controller.subirImagenUsuario = async (req, res) => {
   const objetivoPath = path.resolve(`src/public/uploads/usuarios/${req.file.originalname}`);
 
   // Controla que no se pueda editar los datos de otro usuario
-  if (idUsuario != req.usuario.sub) return eliminarArchivosSubidos(res, imagenTempPath, 'No tiene permisos para actualizar los datos del usuario!');
+  if (idUsuario != req.usuario.sub) return eliminarArchivosSubidos(res, imagenTempPath, 'No tienes permisos para actualizar los datos de este usuario!');
 
   if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.gif') {
     await fs.rename(imagenTempPath, objetivoPath);
