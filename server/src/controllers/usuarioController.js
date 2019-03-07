@@ -1,3 +1,7 @@
+const mongoosePagination = require('mongoose-pagination');
+const fs = require('fs-extra');
+const path = require('path');
+
 const Usuario = require('../models/usuario');
 const helpers = require('../libs/helpers');
 const jwt = require('../libs/jwt');
@@ -55,6 +59,109 @@ controller.iniciarSesion = async (req, res) => {
     }
   } else {
     return res.status(200).json({ mensaje: "¡El usuario no se ha podido identificar!" });
+  }
+}
+
+controller.obtenerUsuario = async (req, res) => {
+  const { idUsuario } = req.params;
+
+  try {
+    const usuario = await Usuario.findById(idUsuario);
+
+    // Cuando no existe el usuario
+    if (!usuario) {
+      res.status(404).json({ mensaje: 'El usuario no existe' });
+    } else {
+      res.status(200).json({ usuario });
+    }
+  } catch (ex) {
+    res.status(505).json({ mensaje: 'Error en la petición' });
+  }
+}
+
+controller.obtenerUsuarios = async (req, res) => {
+  // const { sub } = req.usuario;
+  let pagina = 1;
+  let elementosPorPagina = 5;
+
+  if (req.params.pagina) pagina = req.params.pagina;
+
+  await Usuario.find().sort('_id').paginate(pagina, elementosPorPagina, (error, usuarios, total) => {
+    if (error) return res.status(500).json({ mensaje: 'Error en la petición' });
+
+    if (!usuarios) return res.status(404).json({ mensaje: '¡No existen usuarios disponibles!' });
+
+    res.status(200).json({
+      usuarios,
+      total,
+      paginas: Math.ceil(total/elementosPorPagina)
+    });
+  });
+}
+
+controller.actualizarUsuario = async(req, res) => {
+  const { idUsuario } = req.params;
+
+  // Elimina la propiedad password
+  delete req.body.contrasena;
+
+  // Controla que no se pueda editar los datos de otro usuario
+  if (idUsuario != req.usuario.sub) return res.status(500).json({ mensaje: '¡No tiene permisos para actualizar los datos del usuario!' });
+
+  try {
+    const usuarioActualizado = await Usuario.findByIdAndUpdate(idUsuario, req.body, {new:true});
+
+    if (!usuarioActualizado) return res.status(404).json({ mensaje: '¡No se ha podido actualizar el usuario!' });
+
+    return res.status(200).json({ usuario: usuarioActualizado });
+  } catch (error) {
+    return res.status(505).json({ mensaje: 'Error en la petición' });
+  }
+}
+
+controller.subirImagenUsuario = async (req, res) => {
+  const { idUsuario } = req.params;
+
+  // Dirección donde se encuentra la imágen
+  const imagenTempPath = req.file.path;
+  // Extensión de la imágen
+  const ext = path.extname(req.file.originalname).toLowerCase();
+  // Dirección donde se desea ubicar la imágen para obtener y mostrar
+  const objetivoPath = path.resolve(`src/public/uploads/usuarios/${req.file.originalname}`);
+
+  // Controla que no se pueda editar los datos de otro usuario
+  if (idUsuario != req.usuario.sub) return eliminarArchivosSubidos(res, imagenTempPath, 'No tiene permisos para actualizar los datos del usuario!');
+
+  if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.gif') {
+    await fs.rename(imagenTempPath, objetivoPath);
+
+    const usuarioActualizado = await Usuario.findByIdAndUpdate(idUsuario, { imagen: req.file.originalname }, { new: true });
+
+    if (!usuarioActualizado) return res.status(404).json({ mensaje: '¡No se ha podido actualizar el usuario!' });
+
+    return res.status(200).json({ usuario: usuarioActualizado });
+  } else {
+    return eliminarArchivosSubidos(res, imagenTempPath, '¡Extensión no válida!');
+  }
+}
+
+async function eliminarArchivosSubidos(res, imagenPath, mensaje) {
+  await fs.unlink(imagenPath);
+  res.status(500).json({ mensaje });
+}
+
+controller.obtenerImagenUsuario = async (req, res) => {
+  const { imagen } = req.params;
+  // Dirección donde se desea ubicar la imágen para obtener y mostrar
+  const imagenPath = path.resolve(`src/public/uploads/usuarios/${imagen}`);
+
+  // Devuelve true si la imágen existe o false si no existe
+  const existe = await fs.exists(imagenPath);
+
+  if (existe) {
+    res.sendFile(imagenPath);
+  } else {
+    return res.status(200).json({ mensaje: '¡La imágen no existe!' });
   }
 }
 
