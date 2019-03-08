@@ -79,8 +79,8 @@ controller.obtenerUsuario = async (req, res) => {
 
     res.status(200).json({
       usuario,
-      seguidor: valor.seguidor,
-      seguido: valor.seguido
+      seguido: valor.seguido,
+      seguidor: valor.seguidor
     });
   } catch (ex) {
     res.status(505).json({ mensaje: 'Error en la petición' });
@@ -88,13 +88,13 @@ controller.obtenerUsuario = async (req, res) => {
 }
 
 async function usuarioSeguido(identidad, idUsuario) {
-  const seguidor = await Seguimiento.findOne({ 'usuario': identidad, 'seguido': idUsuario });
+  const seguido = await Seguimiento.findOne({ 'usuario': identidad, 'seguido': idUsuario });
 
-  const seguido = await Seguimiento.findOne({ 'usuario': idUsuario, 'seguido': identidad });
+  const seguidor = await Seguimiento.findOne({ 'usuario': idUsuario, 'seguido': identidad });
 
   return {
-    seguidor,
-    seguido
+    seguido,
+    seguidor
   }
 }
 
@@ -110,12 +110,39 @@ controller.obtenerUsuarios = (req, res) => {
 
     if (!usuarios) return res.status(404).json({ mensaje: '¡No existen usuarios disponibles!' });
 
-    res.status(200).json({
-      usuarios,
-      total,
-      paginas: Math.ceil(total/elementosPorPagina)
+    idUsuariosSeguidos(req.usuario.sub).then((valor) => {
+      res.status(200).json({
+        usuarios,
+        seguidos: valor.seguidos,
+        seguidores: valor.seguidores,
+        total,
+        paginas: Math.ceil(total/elementosPorPagina)
+      });
     });
   });
+}
+
+async function idUsuariosSeguidos(idUsuario) {
+  const seguidos = await Seguimiento.find({ 'usuario': idUsuario }).select({ '_id': 0, '__v': 0, 'usuario': 0 }).exec().then((seguidos) => {
+    const limpiarSeguidos = [];
+
+    seguidos.forEach(seguidos => limpiarSeguidos.push(seguidos.seguido));
+
+    return limpiarSeguidos;
+  });
+
+  const seguidores = await Seguimiento.find({ 'seguido': idUsuario }).select({ '_id': 0, '__v': 0, 'seguido': 0 }).exec().then((seguidores) => {
+    const limpiarSeguidores = [];
+
+    seguidores.forEach(seguidores => limpiarSeguidores.push(seguidores.usuario));
+
+    return limpiarSeguidores;
+  });
+
+  return {
+    seguidos,
+    seguidores
+  }
 }
 
 controller.actualizarUsuario = async(req, res) => {
