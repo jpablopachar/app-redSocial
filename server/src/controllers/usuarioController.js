@@ -3,6 +3,7 @@ const fs = require('fs-extra');
 const path = require('path');
 
 const Usuario = require('../models/usuario');
+const Seguimiento = require('../models/seguimiento');
 const helpers = require('../libs/helpers');
 const jwt = require('../libs/jwt');
 const controller = {};
@@ -69,10 +70,14 @@ controller.obtenerUsuario = async (req, res) => {
     const usuario = await Usuario.findById(idUsuario);
 
     // Cuando no existe el usuario
-    if (!usuario) {
-      res.status(404).json({ mensaje: 'El usuario no existe' });
-    } else {
-      res.status(200).json({ usuario });
+    if (!usuario) return res.status(404).json({ mensaje: 'El usuario no existe' });
+
+    try {
+      const seguido = await Seguimiento.findOne({ 'usuario': req.usuario.sub, 'seguido': idUsuario }).exec();
+
+      return res.status(200).json({ usuario, seguido })
+    } catch (error) {
+      return res.status(500).json({ mensaje: 'Error al comprobar el seguimiento' });
     }
   } catch (ex) {
     res.status(505).json({ mensaje: 'Error en la petición' });
