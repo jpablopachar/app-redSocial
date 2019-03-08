@@ -72,15 +72,29 @@ controller.obtenerUsuario = async (req, res) => {
     // Cuando no existe el usuario
     if (!usuario) return res.status(404).json({ mensaje: 'El usuario no existe' });
 
-    try {
-      const seguido = await Seguimiento.findOne({ 'usuario': req.usuario.sub, 'seguido': idUsuario }).exec();
+    const valor = await usuarioSeguido(req.usuario.sub, idUsuario);
 
-      return res.status(200).json({ usuario, seguido })
-    } catch (error) {
-      return res.status(500).json({ mensaje: 'Error al comprobar el seguimiento' });
-    }
+    // Elimina la propiedad contrasena
+    usuario.contrasena = undefined;
+
+    res.status(200).json({
+      usuario,
+      seguidor: valor.seguidor,
+      seguido: valor.seguido
+    });
   } catch (ex) {
     res.status(505).json({ mensaje: 'Error en la petición' });
+  }
+}
+
+async function usuarioSeguido(identidad, idUsuario) {
+  const seguidor = await Seguimiento.findOne({ 'usuario': identidad, 'seguido': idUsuario });
+
+  const seguido = await Seguimiento.findOne({ 'usuario': idUsuario, 'seguido': identidad });
+
+  return {
+    seguidor,
+    seguido
   }
 }
 
