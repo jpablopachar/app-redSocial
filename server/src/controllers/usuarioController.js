@@ -145,6 +145,26 @@ async function idUsuariosSeguidos(idUsuario) {
   }
 }
 
+controller.obtenerContadores = async (req, res) => {
+  let { sub } = req.usuario;
+
+  if (req.params.idUsuario) sub = req.params.idUsuario;
+
+  const valor = await obtenerContadorSeguimiento(sub);
+
+  return res.status(200).json(valor);
+}
+
+async function obtenerContadorSeguimiento(idUsuario) {
+  const contadorSeguidos = await Seguimiento.count({ 'usuario': idUsuario });
+  const contadorSeguidores = await Seguimiento.count({ 'seguido': idUsuario });
+
+  return {
+    seguidos: contadorSeguidos,
+    seguidores: contadorSeguidores
+  }
+}
+
 controller.actualizarUsuario = async(req, res) => {
   const { idUsuario } = req.params;
 
