@@ -70,4 +70,17 @@ controller.obtenerPublicacion = async (req, res) => {
   }
 }
 
+controller.eliminarPublicacion = async (req, res) => {
+  try {
+    const publicacionEliminada = await Publicacion.find({ 'usuario': req.usuario.sub, '_id': req.params.idPublicacion }).remove();
+
+    if(!publicacionEliminada) return res.status(404).json({ mensaje: "¡No se ha eliminado la publicación!" });
+
+    return res.status(200).json({ mensaje: 'Publicación eliminada correctamente' });
+
+  } catch (error) {
+    return res.status(500).json({ mensaje: "¡Error en el servidor!" });
+  }
+}
+
 module.exports = controller;
