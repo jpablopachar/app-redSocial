@@ -57,4 +57,17 @@ controller.obtenerPublicacionesSeguidos = async (req, res) => {
   });
 }
 
+controller.obtenerPublicacion = async (req, res) => {
+  try {
+    const publicacion = await Publicacion.findById(req.params.idPublicacion);
+
+    if(!publicacion) return res.status(404).json({ mensaje: "¡No existe la publicación!" });
+
+    return res.status(200).json({ publicacion });
+
+  } catch (error) {
+    return res.status(500).json({ mensaje: "¡Error en el servidor!" });
+  }
+}
+
 module.exports = controller;
