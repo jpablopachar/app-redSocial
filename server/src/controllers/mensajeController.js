@@ -23,12 +23,31 @@ controller.guardarMensaje = async (req, res) => {
   try {
     const nuevoMensaje = await mensaje.save();
 
-    if (!nuevoMensaje) return res.status(500).json({ mensaje: 'Error al enviar el mensaje' });
+    if (!nuevoMensaje) return res.status(404).json({ mensaje: 'Error al enviar el mensaje' });
 
     return res.status(200).json({ mensaje: nuevoMensaje });
   } catch (error) {
-    return res.status(200).json({ mensaje: 'Error en el servidor' });
+    return res.status(500).json({ mensaje: 'Error en el servidor' });
   }
+}
+
+controller.obtenerMensajesRecibidos = async (req, res) => {
+  let pagina = 1;
+  let elementosPorPagina = 4;
+
+  if (req.params.pagina) pagina = req.params.pagina;
+
+  Mensaje.find({ recibido: req.usuario.sub }).populate('emitido').paginate(pagina, elementosPorPagina, (error, mensajes, total) => {
+    if (error) return res.status(500).json({ mensaje: 'Error en el servidor' });
+
+    if (!mensajes) return res.status(404).json({ mensaje: 'No existen mensajes' });
+
+    return res.status(200).json({
+      total,
+      paginas: Math.ceil(total/elementosPorPagina),
+      mensajes
+    });
+  });
 }
 
 module.exports = controller;
