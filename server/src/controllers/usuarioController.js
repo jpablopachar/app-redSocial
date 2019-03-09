@@ -4,6 +4,7 @@ const path = require('path');
 
 const Usuario = require('../models/usuario');
 const Seguimiento = require('../models/seguimiento');
+const Publicacion = require('../models/publicacion');
 const helpers = require('../libs/helpers');
 const jwt = require('../libs/jwt');
 const controller = {};
@@ -158,10 +159,12 @@ controller.obtenerContadores = async (req, res) => {
 async function obtenerContadorSeguimiento(idUsuario) {
   const contadorSeguidos = await Seguimiento.count({ 'usuario': idUsuario });
   const contadorSeguidores = await Seguimiento.count({ 'seguido': idUsuario });
+  const publicaciones = await Publicacion.count({ 'usuario': idUsuario });
 
   return {
     seguidos: contadorSeguidos,
-    seguidores: contadorSeguidores
+    seguidores: contadorSeguidores,
+    publicaciones
   }
 }
 
