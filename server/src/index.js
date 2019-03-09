@@ -34,6 +34,7 @@ app.use(multer({ storage }).single('imagen'));
 app.use('/api', require('./routes/usuarioRoutes'));
 app.use('/api', require('./routes/seguimientoRoutes'));
 app.use('/api', require('./routes/publicacionRoutes'));
+app.use('/api', require('./routes/mensajeRoutes'));
 
 // Escucha en el puerto establecido
 app.listen(app.get('port'), () => {

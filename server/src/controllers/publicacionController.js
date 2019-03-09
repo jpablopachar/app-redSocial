@@ -3,7 +3,6 @@ const moment = require('moment');
 const fs = require('fs-extra');
 const path = require('path');
 
-const Usuario = require('../models/usuario');
 const Publicacion = require('../models/publicacion');
 const Seguimiento = require('../models/seguimiento');
 const controller = {};
