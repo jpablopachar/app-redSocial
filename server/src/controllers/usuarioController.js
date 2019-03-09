@@ -168,7 +168,7 @@ async function obtenerContadorSeguimiento(idUsuario) {
 controller.actualizarUsuario = async(req, res) => {
   const { idUsuario } = req.params;
 
-  // Elimina la propiedad password
+  // Elimina la propiedad contrasena
   delete req.body.contrasena;
 
   // Controla que no se pueda editar los datos de otro usuario

@@ -1,8 +1,5 @@
 const mongoosePagination = require('mongoose-pagination');
 
-const path = require('path');
-
-const Usuario = require('../models/usuario');
 const Seguimiento = require('../models/seguimiento');
 const controller = {};
 
