@@ -7,5 +7,7 @@ router.post('/publicacion', asegurarAutenticacion, PublicacionController.guardar
 router.get('/publicaciones/:pagina?', asegurarAutenticacion, PublicacionController.obtenerPublicacionesSeguidos);
 router.get('/publicacion/:idPublicacion', asegurarAutenticacion, PublicacionController.obtenerPublicacion);
 router.delete('/publicacion/:idPublicacion', asegurarAutenticacion, PublicacionController.eliminarPublicacion);
+router.post('/subirImagenPublicacion/:idPublicacion', asegurarAutenticacion, PublicacionController.subirImagenPublicacion);
+router.get('/obtenerImagenPublicacion/:idPublicacion', asegurarAutenticacion, PublicacionController.obtenerImagenPublicacion);
 
 module.exports = router;

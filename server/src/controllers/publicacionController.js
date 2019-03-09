@@ -1,5 +1,6 @@
 const mongoosePagination = require('mongoose-pagination');
 const moment = require('moment');
+const fs = require('fs-extra');
 const path = require('path');
 
 const Usuario = require('../models/usuario');
@@ -80,6 +81,55 @@ controller.eliminarPublicacion = async (req, res) => {
 
   } catch (error) {
     return res.status(500).json({ mensaje: "¡Error en el servidor!" });
+  }
+}
+
+controller.subirImagenPublicacion = async (req, res) => {
+  const { idPublicacion } = req.params;
+
+  // Dirección donde se encuentra la imágen
+  const imagenTempPath = req.file.path;
+  // Extensión de la imágen
+  const ext = path.extname(req.file.originalname).toLowerCase();
+  // Dirección donde se desea ubicar la imágen para obtener y mostrar
+  const objetivoPath = path.resolve(`src/public/uploads/publicaciones/${req.file.originalname}`);
+
+  if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.gif') {
+    await fs.rename(imagenTempPath, objetivoPath);
+
+    const publicacion = await Publicacion.findOne({ 'usuario': req.usuario.sub, '_id': idPublicacion }).exec();
+
+    if (publicacion) {
+      const publicacionActualizada = await Publicacion.findByIdAndUpdate(idPublicacion, { archivo: req.file.originalname }, { new: true });
+
+      if (!publicacionActualizada) return res.status(404).json({ mensaje: '¡No se ha podido actualizar la publicación!' });
+
+      return res.status(200).json({ publicacion: publicacionActualizada });
+    } else {
+      return eliminarArchivosSubidos(res, imagenTempPath, '¡No tienes permisos para actualizar la publicación!');
+    }
+  } else {
+    return eliminarArchivosSubidos(res, imagenTempPath, '¡Extensión no válida!');
+  }
+}
+
+async function eliminarArchivosSubidos(res, imagenPath, mensaje) {
+  await fs.unlink(imagenPath);
+  res.status(500).json({ mensaje });
+}
+
+controller.obtenerImagenPublicacion = async (req, res) => {
+  const { imagen } = req.params;
+  // Dirección donde se desea ubicar la imágen para obtener y mostrar
+  const imagenPath = path.resolve(`src/public/uploads/publicaciones/${imagen}`);
+
+  // Devuelve true si la imágen existe o false si no existe
+  const existe = await fs.exists(imagenPath);
+
+  if (existe) {
+    res.sendFile(imagenPath);
+  } else {
+    return res.status(200).json({ mensaje: '¡La imágen no existe!' });
   }
 }
 
