@@ -69,4 +69,24 @@ controller.obtenerMensajesEnviados = async (req, res) => {
   });
 }
 
+controller.obtenerMensajesNoVistos = async (req, res) => {
+  try {
+    const contador = await Mensaje.count({ recibido: req.usuario.sub, visto: 'false' }).exec();
+
+    return res.status(200).json({ 'SinVer': contador });
+  } catch (error) {
+    return res.status(500).json({ mensaje: 'Error en el servidor' });
+  }
+}
+
+controller.verMensajes = async (req, res) => {
+  try {
+    const mensajeActualizado = await Mensaje.update({ recibido: req.usuario.sub, visto: 'false' }, { visto: 'true' }, { 'multi': true });
+
+    return res.status(200).json({ mensajes: mensajeActualizado });
+  } catch (error) {
+    return res.status(500).json({ mensaje: 'Error en el servidor' });
+  }
+}
+
 module.exports = controller;
