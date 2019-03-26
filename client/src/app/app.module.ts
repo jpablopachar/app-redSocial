@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { routing, appRoutingProviders } from './app.routing';
 import { IniciarSesionComponent } from './components/iniciar-sesion/iniciar-sesion.component';
 import { RegistrarComponent } from './components/registrar/registrar.component';
 
@@ -12,9 +13,12 @@ import { RegistrarComponent } from './components/registrar/registrar.component';
     RegistrarComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    routing
   ],
-  providers: [],
+  providers: [
+    appRoutingProviders
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
