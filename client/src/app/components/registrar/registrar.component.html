@@ -1,1 +1,37 @@
-<h1>{{titulo}}</h1>
+<div class="col-md-5">
+  <h1 class="h1-strong">{{titulo}}</h1>
+  <div class="alert alert-success" *ngIf="estado == 'exito'">
+    Registro completado correctamente, <a [routerLink]="['/iniciarSesion']">Inicia sesión aquí</a>
+  </div>
+  <div class="alert alert-danger" *ngIf="estado == 'error'">
+    El registro no se ha podido completar, quizas tu correo o nombre de usuario ya esté en uso, ¡inténtalo de nuevo!
+  </div>
+  <form #registrarForm="ngForm" (ngSubmit)="onSubmit(registrarForm)" class="col-md-12">
+    <div class="form-group">
+      <label>Nombres</label>
+      <input type="text" name="nombres" class="form-control" #nombres="ngModel" [(ngModel)]="usuario.nombres" required>
+      <span *ngIf="!nombres.valid && nombres.touched">¡El nombre es obligatorio!</span>
+    </div>
+    <div class="form-group">
+      <label>Apellidos</label>
+      <input type="text" name="apellidos" class="form-control" #apellidos="ngModel" [(ngModel)]="usuario.apellidos" required>
+      <span *ngIf="!apellidos.valid && apellidos.touched">¡El apellido es obligatorio!</span>
+    </div>
+    <div class="form-group">
+      <label>Nombre de usuario</label>
+      <input type="text" name="nombreUsuario" class="form-control" #nombreUsuario="ngModel" [(ngModel)]="usuario.nombreUsuario" required>
+      <span *ngIf="!nombreUsuario.valid && nombreUsuario.touched">¡El nombre no es correcto!</span>
+    </div>
+    <div class="form-group">
+      <label>Correo</label>
+      <input type="email" name="correo" class="form-control" #correo="ngModel" [(ngModel)]="usuario.correo" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+      <span *ngIf="!correo.valid && correo.touched">¡El correo es obligatorio!</span>
+    </div>
+    <div class="form-group">
+      <label>Contraseña</label>
+      <input type="password" name="contrasena" class="form-control" #contrasena="ngModel" [(ngModel)]="usuario.contrasena" required>
+      <span *ngIf="!contrasena.valid && contrasena.touched">¡La contraseña es obligatoria!</span>
+    </div>
+    <button type="submit" class="btn btn-success" [disabled]="!registrarForm.form.valid">{{titulo}}</button>
+  </form>
+</div>
