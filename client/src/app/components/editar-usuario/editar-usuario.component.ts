@@ -27,4 +27,8 @@ export class EditarUsuarioComponent implements OnInit {
     console.log(this.usuario);
     console.log('¡Componente editar-usuario cargado!');
   }
+
+  onSubmit() {
+    console.log(this.usuario);
+  }
 }
