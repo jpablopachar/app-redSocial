@@ -10,9 +10,9 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   providers: [UsuarioService]
 })
 export class RegistrarComponent implements OnInit {
-  titulo: string;
-  usuario: Usuario;
-  estado: string;
+  public titulo: string;
+  public usuario: Usuario;
+  public estado: string;
 
   constructor(private _route: ActivatedRoute, _router: Router, private _usuarioService: UsuarioService) {
     this.titulo = 'Regístrate';

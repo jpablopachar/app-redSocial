@@ -1,1 +1,23 @@
-<h1>{{titulo}}</h1>
+<div class="col-md-5">
+  <h1 class="h1-strong">{{titulo}}</h1>
+  <div class="alert alert-success" *ngIf="estado == 'exito'">
+    Te has identificado correctamente. ¡Bienvenido!
+  </div>
+  <div class="alert alert-danger" *ngIf="estado == 'error'">
+    No te has podido identificar correctamente.
+  </div>
+  <form #iniciarSesionForm="ngForm" (ngSubmit)="onSubmit(iniciarSesionForm)" class="col-md-12">
+    <div class="form-group">
+      <label>Correo</label>
+      <input type="email" name="correo" class="form-control" #correo="ngModel" [(ngModel)]="usuario.correo" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+      <span *ngIf="!correo.valid && correo.touched">¡El correo es obligatorio!</span>
+    </div>
+    <div class="form-group">
+      <label>Contraseña</label>
+      <input type="password" name="contrasena" class="form-control" #contrasena="ngModel" [(ngModel)]="usuario.contrasena" required>
+      <span *ngIf="!contrasena.valid && contrasena.touched">¡La contraseña es obligatoria!</span>
+    </div>
+    <button type="submit" class="btn btn-success" [disabled]="!iniciarSesionForm.form.valid">{{titulo}}</button>
+  </form>
+</div>
+

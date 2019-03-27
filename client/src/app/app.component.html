@@ -4,15 +4,36 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
+    <ul class="navbar-nav mr-auto" *ngIf="identidad">
       <li class="nav-item active">
-        <a class="nav-link" href="#"><i class="fas fa-home"></i> Inicio <span class="sr-only">(current)</span></a>
+        <a class="nav-link" [routerLink]="['/inicio']" [routerLinkActive]="['active']"><i class="fas fa-home"></i> Inicio <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#"><i class="fas fa-th-list"></i> Timeline</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#"><i class="fas fa-user"></i> Gente</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto" *ngIf="identidad">
+      <li class="avatar">
+        <!-- Cargar imágen del usuario -->
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{identidad.nombres}} <span class="caret"></span></a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#"><i class="fas fa-user"></i> Mí perfíl</a>
+          <a class="dropdown-item" href="#"><i class="fas fa-cog"></i> Mis datos</a>
+          <a class="dropdown-item" href="#" (click)="cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+        </div>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto" *ngIf="!identidad">
+      <li class="nav-item active">
+        <a class="nav-link" [routerLink]="['/iniciarSesion']" [routerLinkActive]="['active']"><i class="fas fa-sign-in-alt"></i> Iniciar sesión <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/registrarse']" [routerLinkActive]="['active']"><i class="fas fa-user"></i> Registrarse</a>
       </li>
     </ul>
   </div>
