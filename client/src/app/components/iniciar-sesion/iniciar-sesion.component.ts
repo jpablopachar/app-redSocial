@@ -22,7 +22,7 @@ export class IniciarSesionComponent implements OnInit {
   }
 
   ngOnInit() {
-     
+    console.log('¡Componente iniciar-sesion cargado!');
   }
 
   onSubmit() {
