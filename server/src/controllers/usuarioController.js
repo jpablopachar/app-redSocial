@@ -177,6 +177,16 @@ controller.actualizarUsuario = async(req, res) => {
   // Controla que no se pueda editar los datos de otro usuario
   if (idUsuario != req.usuario.sub) return res.status(500).json({ mensaje: '¡No tienes permisos para actualizar los datos de este usuario!' });
 
+  const usuarioDuplicado = await Usuario.find({ $or: [{ correo: req.body.correo.toLowerCase() }, { nombreUsuario: req.body.nombreUsuario.toLowerCase() }] });
+
+  let configuracionUsuario = false;
+
+  usuarioDuplicado.forEach((usuario) => {
+    if (usuario && usuario._id != idUsuario) configuracionUsuario = true;
+  });
+
+  if (configuracionUsuario) return res.status(404).json({ mensaje: '¡Los datos ya se encuentran en uso!' });
+
   try {
     const usuarioActualizado = await Usuario.findByIdAndUpdate(idUsuario, req.body, {new:true});
 

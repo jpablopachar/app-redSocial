@@ -81,4 +81,11 @@ export class UsuarioService {
       return this._http.get(this.url + 'contadores/', {headers: headers});
     }
   }
+
+  actualizarUsuario(usuario: Usuario): Observable<any> {
+    const params = JSON.stringify(usuario);
+    const headers = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', this.obtenerToken());
+
+    return this._http.put(this.url + 'actualizarUsuario/' + usuario._id, params, {headers: headers});
+  }
 }

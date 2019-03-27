@@ -30,5 +30,24 @@ export class EditarUsuarioComponent implements OnInit {
 
   onSubmit() {
     console.log(this.usuario);
+    this._usuarioService.actualizarUsuario(this.usuario).subscribe((res) => {
+      if (!res.usuario) {
+        this.estado = 'error';
+      } else {
+        this.estado = 'exito';
+
+        localStorage.setItem('identidad', JSON.stringify(this.usuario));
+
+        this.identidad = this.usuario;
+        // Subida de imágen de usuario
+      }
+    }, (error) => {
+      const mensajeError = <any>error;
+      console.log(mensajeError);
+
+      if (mensajeError !== null) {
+        this.estado = 'error';
+      }
+    });
   }
 }
