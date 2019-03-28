@@ -10,6 +10,6 @@ router.get('/usuarios/:pagina?', asegurarAutenticacion, UsuarioController.obtene
 router.get('/contadores/:idUsuario?', asegurarAutenticacion, UsuarioController.obtenerContadores);
 router.put('/actualizarUsuario/:idUsuario', asegurarAutenticacion, UsuarioController.actualizarUsuario);
 router.post('/subirImagenUsuario/:idUsuario', asegurarAutenticacion, UsuarioController.subirImagenUsuario);
-router.get('/obtenerImagenUsuario/:imagen', asegurarAutenticacion, UsuarioController.obtenerImagenUsuario);
+router.get('/obtenerImagenUsuario/:imagen', UsuarioController.obtenerImagenUsuario);
 
 module.exports = router;

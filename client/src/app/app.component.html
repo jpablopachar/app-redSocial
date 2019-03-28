@@ -18,6 +18,7 @@
     <ul class="navbar-nav ml-auto" *ngIf="identidad">
       <li class="avatar">
         <!-- Cargar imágen del usuario -->
+        <img src="{{url + 'obtenerImagenUsuario/' + identidad.imagen}}" class="rounded-circle" alt="Avatar del usuario" *ngIf="identidad && identidad.imagen" width="40px">
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{identidad.nombres}} <span class="caret"></span></a>
