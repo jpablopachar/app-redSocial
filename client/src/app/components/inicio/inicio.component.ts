@@ -15,5 +15,4 @@ export class InicioComponent implements OnInit {
   ngOnInit() {
     console.log('¡Componente inicio cargado!');
   }
-
 }
