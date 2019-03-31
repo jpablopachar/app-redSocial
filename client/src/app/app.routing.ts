@@ -14,6 +14,7 @@ const appRoutes: Routes = [
   {path: 'registrarse', component: RegistrarComponent},
   {path: 'actualizarUsuario', component: EditarUsuarioComponent},
   {path: 'usuarios', component: UsuariosComponent},
+  {path: 'usuarios/:pagina', component: UsuariosComponent},
   {path: '**', component: InicioComponent}
 ];
 

@@ -88,4 +88,16 @@ export class UsuarioService {
 
     return this._http.put(this.url + 'actualizarUsuario/' + usuario._id, params, {headers: headers});
   }
+
+  obtenerUsuarios(pagina = null) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', this.obtenerToken());
+
+    return this._http.get(this.url + 'usuarios/' + pagina, {headers: headers});
+  }
+
+  obtenerUsuario(id: string): Observable<any> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', this.obtenerToken());
+
+    return this._http.get(this.url + 'usuario/' + id, {headers: headers});
+  }
 }

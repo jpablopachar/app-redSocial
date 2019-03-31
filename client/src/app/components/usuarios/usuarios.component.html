@@ -1,3 +1,38 @@
 <div class="col-md-8">
   <h1 class="h1-strong">{{titulo}}</h1>
+  <div class="persona">
+    <div *ngFor="let usuario of usuarios">
+      <div class="card mb-3">
+        <div class="card-body">
+          <div class="media">
+            <img src="{{url + 'obtenerImagenUsuario/' + usuario.imagen}}" class="mr-3 rounded-circle" width="120px" alt="Imágen del usuario" *ngIf="usuario.imagen">
+            <img src="assets/hombre.png" class="mr-3 rounded-circle" width="120px" alt="Imágen del usuario por defecto" *ngIf="!usuario.imagen">
+            <div class="media-body my-auto">
+              <h5 class="font-weight-bold"><a href="#" class="text-dark">{{usuario.nombres + ' ' + usuario.apellidos}}</a></h5>
+              <p class="text-gray">{{usuario.nombreUsuario}}</p>
+            </div>
+            <!--Seguir / Dejar de seguir-->
+            <div *ngIf="usuario._id != identidad._id">
+              <button class="btn btn-success" *ngIf="seguimientos.indexOf(usuario._id) < 0" (click)="seguirUsuario(usuario._id)"><i class="fas fa-plus-circle"></i> Seguir</button>
+              <button class="btn btn-primary" *ngIf="seguimientos.indexOf(usuario._id) >= 0" (mouseenter)="mouseEnter(usuario._id)" (mouseleave)="mouseLeave()" [class.btn-danger]="usuario._id == seguimientoUsuarioHover" (click)="dejarDeSeguir(usuario._id)">
+                <div *ngIf="usuario._id == seguimientoUsuarioHover; else siguiendo">
+                  <i class="fas fa-minus-circle"></i> Dejar de seguir
+                </div>
+                <ng-template #siguiendo>
+                    <i class="fas fa-check-circle"></i> Siguiendo
+                </ng-template>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Paginación-->
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-end">
+        <li class="page-item" *ngIf="pagina > 1"><a class="page-link" [routerLink]="['/usuarios', pagina_anterior]">Anterior</a></li>
+        <li class="page-item" *ngIf="paginas !== pagina"><a class="page-link" [routerLink]="['/usuarios', pagina_siguiente]">Siguiente</a></li>
+      </ul>
+    </nav>
+  </div>
 </div>
