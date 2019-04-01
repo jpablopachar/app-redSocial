@@ -1,4 +1,4 @@
-<h1 class="h1-strong">Mis datos</h1>
+<h1 class="h1-strong">Hola, {{identidad.nombreUsuario}}</h1>
 <div class="card">
   <div class="card-body">
     <div class="media">
@@ -35,7 +35,13 @@
 <div class="card mt-3">
   <div class="card-body">
     <h3>Crear publicación</h3>
-    <form #publicacionForm="ngForm" (ngSubmit)="onSubmit()">
+    <form #publicacionForm="ngForm" (ngSubmit)="onSubmit(publicacionForm); enviarPublicacion($event);">
+      <div class="alert alert-success" *ngIf="estado == 'exito'">
+        Publicación enviada correctamente
+      </div>
+      <div class="alert alert-danger" *ngIf="estado == 'error'">
+        Publicación no enviada
+      </div>
       <div class="form-group">
         <label class="font-weight-bold">¿Que estás pensando hoy?</label>
         <textarea class="form-control" name="texto" #texto="ngModel" [(ngModel)]="publicacion.texto" rows="2" required></textarea>

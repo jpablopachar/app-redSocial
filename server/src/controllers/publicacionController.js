@@ -41,6 +41,8 @@ controller.obtenerPublicacionesSeguidos = async (req, res) => {
 
   // Almacena los usuarios que sigues dentro de un array
   seguimientos.forEach((seguimiento) => limpiarSeguimientos.push(seguimiento.seguido));
+  // Añadir las publicaciones del usuario
+  limpiarSeguimientos.push(req.usuario.sub);
 
   // Busca las publicaciones de los usuarios almacenados en el array
   Publicacion.find({ usuario: { '$in': limpiarSeguimientos }}).sort('-creadoEn').populate('usuario').paginate(pagina, elementosPorPagina, (error, publicaciones, total) => {
@@ -52,6 +54,7 @@ controller.obtenerPublicacionesSeguidos = async (req, res) => {
       totalElementos: total,
       paginas: Math.ceil(total/elementosPorPagina),
       pagina,
+      elementosPorPagina,
       publicaciones
     })
   });

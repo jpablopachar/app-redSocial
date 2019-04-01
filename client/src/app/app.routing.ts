@@ -6,6 +6,7 @@ import { RegistrarComponent } from './components/registrar/registrar.component';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { EditarUsuarioComponent } from './components/editar-usuario/editar-usuario.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
+import { TimelineComponent } from './components/timeline/timeline.component';
 
 const appRoutes: Routes = [
   {path: '', component: InicioComponent},
@@ -15,6 +16,7 @@ const appRoutes: Routes = [
   {path: 'actualizarUsuario', component: EditarUsuarioComponent},
   {path: 'usuarios', component: UsuariosComponent},
   {path: 'usuarios/:pagina', component: UsuariosComponent},
+  {path: 'timeline', component: TimelineComponent},
   {path: '**', component: InicioComponent}
 ];
 
