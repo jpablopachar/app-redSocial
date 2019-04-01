@@ -1,0 +1,51 @@
+<h1 class="h1-strong">Mis datos</h1>
+<div class="card">
+  <div class="card-body">
+    <div class="media">
+      <img src="{{url + 'obtenerImagenUsuario/' + identidad.imagen}}" class="rounded-circle mr-md-3" alt="Imágen del usuario" width="110" *ngIf="identidad.imagen">
+      <img src="assets/hombre.png" alt="Imágen del usuario por defecto" *ngIf="!identidad.imagen">
+      <div class="media-body">
+        <a href="#" class="text-dark">{{identidad.nombres + ' ' + identidad.apellidos}}</a>
+        <p class="text-gray">{{identidad.nombreUsuario}}</p>
+      </div>
+    </div>
+    <hr>
+    <div class="estadisticas d-flex justify-content-between text-center">
+      <div>
+        <a href="#" class="text-dark font-weight-bold text-decoration-none">
+          <span class="d-block">Siguiendo</span>
+          <span class="d-block text-success">{{estadisticas.seguidos}}</span>
+        </a>
+      </div>
+      <div>
+        <a href="#" class="text-dark font-weight-bold text-decoration-none">
+          <span class="d-block">Seguidores</span>
+          <span class="d-block text-success">{{estadisticas.seguidos}}</span>
+        </a>
+      </div>
+      <div>
+        <a href="#" class="text-dark font-weight-bold text-decoration-none">
+          <span class="d-block">Publicaciones</span>
+          <span class="d-block text-success">{{estadisticas.publicaciones}}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card mt-3">
+  <div class="card-body">
+    <h3>Crear publicación</h3>
+    <form #publicacionForm="ngForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label class="font-weight-bold">¿Que estás pensando hoy?</label>
+        <textarea class="form-control" name="texto" #texto="ngModel" [(ngModel)]="publicacion.texto" rows="2" required></textarea>
+        <span *ngIf="!texto.valid && texto.touched">El texto de la publicación es obligatorio</span>
+      </div>
+      <div class="form-group">
+        <label class="font-weight-bold">Sube tu foto</label>
+        <input type="file" class="form-control-file">
+      </div>
+      <button type="submit" class="btn btn-success" [disabled]="!publicacionForm.form.valid">Enviar</button>
+    </form>
+  </div>
+</div>
