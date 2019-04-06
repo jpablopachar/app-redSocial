@@ -14,6 +14,7 @@ import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { TimelineComponent } from './components/timeline/timeline.component';
 import { PublicacionesComponent } from './components/publicaciones/publicaciones.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { PublicacionesComponent } from './components/publicaciones/publicaciones
     UsuariosComponent,
     SidebarComponent,
     TimelineComponent,
-    PublicacionesComponent
+    PublicacionesComponent,
+    PerfilComponent
   ],
   imports: [
     BrowserModule,

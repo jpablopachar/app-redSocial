@@ -3,8 +3,8 @@
   <div class="card-body">
     <div class="media">
       <img src="{{url + 'obtenerImagenUsuario/' + identidad.imagen}}" class="rounded-circle mr-md-3" alt="Imágen del usuario" width="110" *ngIf="identidad.imagen">
-      <img src="assets/hombre.png" alt="Imágen del usuario por defecto" *ngIf="!identidad.imagen">
-      <div class="media-body">
+      <img src="assets/hombre.png" alt="Imágen del usuario por defecto" width="110" *ngIf="!identidad.imagen" class="mr-md-3">
+      <div class="media-body my-auto">
         <a href="#" class="text-dark">{{identidad.nombres + ' ' + identidad.apellidos}}</a>
         <p class="text-gray">{{identidad.nombreUsuario}}</p>
       </div>

@@ -1,5 +1,5 @@
-import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { GLOBAL } from 'src/app/services/global';
 import { Publicacion } from './../../models/publicacion';
@@ -41,7 +41,6 @@ export class TimelineComponent implements OnInit {
 
   obtenerPublicaciones(pagina, adicionar = false) {
     this._publicacionService.obtenerPublicaciones(this.token, pagina).subscribe((res) => {
-      console.log(res);
       if (!res.publicaciones) {
         this.estado = 'error';
       } else {

@@ -11,7 +11,8 @@
                 <img src="assets/hombre.png" width="120" class="rounded-circle" alt="Imágen del usuario por defecto" *ngIf="!publicacion.usuario.imagen">
               </a>
               <div class="media-body my-auto">
-                  <span class="font-weight-bold">{{publicacion.usuario.nombres + ' ' + publicacion.usuario.apellidos}}</span>&nbsp;|&nbsp;<span>{{(publicacion.creadoEn | amFromUnix) | amLocale:'es' | amTimeAgo}}</span>
+                <a [routerLink]="['/perfil', publicacion.usuario._id]" class="text-dark font-weight-bold">{{publicacion.usuario.nombres + ' ' + publicacion.usuario.apellidos}}</a>
+                &nbsp;|&nbsp;<span>{{(publicacion.creadoEn | amFromUnix) | amLocale:'es' | amTimeAgo}}</span>
                 <p class="mb-0 font-weight-bold">{{publicacion.texto}}</p>
               </div>
             </div>

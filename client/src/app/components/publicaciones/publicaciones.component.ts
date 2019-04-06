@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { GLOBAL } from 'src/app/services/global';
@@ -24,6 +24,7 @@ export class PublicacionesComponent implements OnInit {
   public publicaciones: Publicacion[];
   public elementosPorPagina;
   public noMas = false;
+  @Input() idUsuario: string;
 
   constructor(private _route: ActivatedRoute, private _router: Router, private _usuarioService: UsuarioService,
     private _publicacionService: PublicacionService) {
@@ -36,11 +37,11 @@ export class PublicacionesComponent implements OnInit {
 
   ngOnInit() {
     console.log('¡Componente publicaciones cargado!');
-    this.obtenerPublicaciones(this.pagina);
+    this.obtenerPublicaciones(this.idUsuario, this.pagina);
   }
 
-  obtenerPublicaciones(pagina, adicionar = false) {
-    this._publicacionService.obtenerPublicaciones(this.token, pagina).subscribe((res) => {
+  obtenerPublicaciones(idUsuario, pagina, adicionar = false) {
+    this._publicacionService.obtenerPublicacionesUsuario(this.token, idUsuario, pagina).subscribe((res) => {
       console.log(res);
       if (!res.publicaciones) {
         this.estado = 'error';
@@ -77,7 +78,7 @@ export class PublicacionesComponent implements OnInit {
       this.noMas = true;
     }
 
-    this.obtenerPublicaciones(this.pagina, true);
+    this.obtenerPublicaciones(this.idUsuario, this.pagina, true);
   }
 
 }

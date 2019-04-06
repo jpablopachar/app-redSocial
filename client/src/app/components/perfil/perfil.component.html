@@ -1,0 +1,34 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-8">
+      <h1 class="h1-strong">{{titulo}}</h1>
+      <div class="col-lg-12">
+        <div class="media row" *ngIf="usuario">
+          <img src="{{url + 'obtenerImagenUsuario/' + usuario.imagen}}" class="mr-3 rounded-circle" alt="Imágen del usuario" width="185" *ngIf="usuario.imagen">
+          <img src="assets/hombre.png" class="mr-3 rounded-circle" alt="Imágen del usuario por defecto" width="185" *ngIf="!usuario.imagen">
+          <div class="media-body col-lg-8 my-auto">
+            <span class="badge badge-secondary mb-2" *ngIf="seguidor">Te sigue</span>
+            <h4 class="mt-0 font-weight-bold">{{usuario.nombres + ' ' + usuario.apellidos}}</h4>
+            <p class="h4">{{usuario.nombreUsuario}}</p>
+            <div>
+              <button class="btn btn-success" *ngIf="!seguido" (click)="seguirUsuario(usuario._id)">Seguir</button>
+              <button class="btn btn-primary" *ngIf="seguido" (click)="dejarDeSeguir(usuario._id)" (mouseenter)="mouseEnter(usuario._id)" (mouseleave)="mouseLeave()" [class.btn-danger]="usuario._id == seguirUsuarioHover">
+                <span *ngIf="usuario._id == seguirUsuarioHover; else seguido">Dejar de seguir</span>
+                <ng-template #seguido>Siguiendo</ng-template>
+              </button>
+            </div>
+          </div>
+          <div *ngIf="estadisticas" class="col-lg-4 my-auto">
+            <a [routerLink]="['/seguidores', usuario._id, 1]" class="h4 text-dark d-block text-decoration-none"><span class="pr-2">Seguidores</span><span>{{estadisticas.seguidores}}</span></a>
+            <a [routerLink]="['/seguidos', usuario._id, 1]" class="h4 text-dark d-block text-decoration-none"><span class="pr-2">Seguidos</span><span>{{estadisticas.seguidos}}</span></a>
+            <a [routerLink]="['/perfil', identidad._id, 1]" class="h4 text-dark d-block text-decoration-none"> <span class="pr-2">Publicaciones</span><span>{{estadisticas.publicaciones}}</span></a>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="usuario">
+        <app-publicaciones [idUsuario]="usuario._id" class="col-lg-12 mt-4"></app-publicaciones>
+      </div>
+    </div>
+    <app-sidebar class="col-lg-4"></app-sidebar>
+  </div>
+</div>

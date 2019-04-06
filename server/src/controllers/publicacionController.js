@@ -60,6 +60,30 @@ controller.obtenerPublicacionesSeguidos = async (req, res) => {
   });
 }
 
+controller.obtenerPublicacionesUsuario = async (req, res) => {
+  let pagina = 1;
+  let elementosPorPagina = 4;
+
+  if (req.params.pagina) pagina = req.params.pagina;
+
+  if (req.params.idUsuario) req.usuario.sub = req.params.idUsuario;
+
+  // Busca las publicaciones de un usuario
+  Publicacion.find({ usuario: req.usuario.sub }).sort('-creadoEn').populate('usuario').paginate(pagina, elementosPorPagina, (error, publicaciones, total) => {
+    if (error) return res.status(500).json({ mensaje: "¡Error en el servidor!" });
+
+    if (!publicaciones) return res.status(404).json({ mensaje: "¡No existen publicaciones!" });
+
+    return res.status(200).json({
+      totalElementos: total,
+      paginas: Math.ceil(total/elementosPorPagina),
+      pagina,
+      elementosPorPagina,
+      publicaciones
+    })
+  });
+}
+
 controller.obtenerPublicacion = async (req, res) => {
   try {
     const publicacion = await Publicacion.findById(req.params.idPublicacion);

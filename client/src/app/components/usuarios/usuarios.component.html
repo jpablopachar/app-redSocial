@@ -10,7 +10,7 @@
                 <img src="{{url + 'obtenerImagenUsuario/' + usuario.imagen}}" class="mr-3 rounded-circle" width="120px" alt="Imágen del usuario" *ngIf="usuario.imagen">
                 <img src="assets/hombre.png" class="mr-3 rounded-circle" width="120px" alt="Imágen del usuario por defecto" *ngIf="!usuario.imagen">
                 <div class="media-body my-auto">
-                  <h5 class="font-weight-bold"><a href="#" class="text-dark">{{usuario.nombres + ' ' + usuario.apellidos}}</a></h5>
+                  <h5 class="font-weight-bold"><a [routerLink]="['/perfil', usuario._id]" class="text-dark">{{usuario.nombres + ' ' + usuario.apellidos}}</a></h5>
                   <p class="text-gray">{{usuario.nombreUsuario}}</p>
                 </div>
                 <!--Seguir / Dejar de seguir-->
