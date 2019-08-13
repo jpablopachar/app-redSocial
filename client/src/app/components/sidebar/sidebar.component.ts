@@ -5,6 +5,7 @@ import { GLOBAL } from 'src/app/services/global';
 import { Publicacion } from './../../models/publicacion';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { PublicacionService } from './../../services/publicacion.service';
+import { SubirService } from 'src/app/services/subir.service';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -19,10 +20,11 @@ export class SidebarComponent implements OnInit {
   public url;
   public estado;
   public publicacion: Publicacion;
+  public archivoASubir: Array<File>;
   @Output() enviado = new EventEmitter();
 
   constructor(private _route: ActivatedRoute, private _router: Router, private _usuarioService: UsuarioService,
-    private _publicacionService: PublicacionService) {
+    private _publicacionService: PublicacionService, private _subirService: SubirService) {
     this.identidad = this._usuarioService.obtenerIdentidad();
     this.token = this._usuarioService.obtenerToken();
     this.estadisticas = this._usuarioService.obtenerEstadisticas();
@@ -34,15 +36,28 @@ export class SidebarComponent implements OnInit {
     console.log('¡Componente sidebar cargado!');
   }
 
-  onSubmit(form: NgForm) {
+  enviarPublicacion(form: NgForm, evento) {
     this._publicacionService.agregarPublicacion(this.token, this.publicacion).subscribe((res) => {
       if (!res.publicacion) {
         this.estado = 'error';
       } else {
-        // this.publicacion = res.publicacion;
-        this.estado = 'exito';
-        form.reset();
-        this._router.navigate(['/timeline']);
+        if (this.archivoASubir && this.archivoASubir.length) {
+          this._subirService.solicitarArchivo(this.url + 'subirImagenPublicacion/' + res.publicacion._id, [], this.archivoASubir, this.token, 'imagen').then((resultado: any) => {
+            this.estado = 'success';
+            console.log(resultado);
+            this.publicacion.archivo = resultado.imagen;
+
+            form.reset();
+            this._router.navigate(['/timeline']);
+            this.enviado.emit({enviar: 'true'});
+          });
+        } else {
+          this.estado = 'success';
+
+          form.reset();
+          this._router.navigate(['/timeline']);
+          this.enviado.emit({enviar: 'true'});
+        }
       }
     }, (error) => {
       const mensajeError = <any>error;
@@ -55,8 +70,7 @@ export class SidebarComponent implements OnInit {
     });
   }
 
-  enviarPublicacion(event) {
-    console.log(event);
-    this.enviado.emit({enviar: 'true'});
+  eventoArchivo(entradaArchivo: any) {
+    this.archivoASubir = <Array<File>>entradaArchivo.target.files;
   }
 }

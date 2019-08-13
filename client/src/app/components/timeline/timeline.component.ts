@@ -23,6 +23,7 @@ export class TimelineComponent implements OnInit {
   public estado;
   public publicaciones: Publicacion[];
   public elementosPorPagina;
+  public imagen;
   public noMas = false;
 
   constructor(private _route: ActivatedRoute, private _router: Router, private _usuarioService: UsuarioService,
@@ -79,8 +80,29 @@ export class TimelineComponent implements OnInit {
     this.obtenerPublicaciones(this.pagina, true);
   }
 
-  refrescar(evento) {
+  refrescar(evento = null) {
     this.obtenerPublicaciones(1);
   }
 
+  mostrarImagen(idImagen) {
+    this.imagen = idImagen;
+  }
+
+  ocultarImagen(idImagen) {
+    this.imagen = 0;
+  }
+
+  eliminarPublicacion(idPublicacion) {
+    this._publicacionService.eliminarPublicacion(this.token, idPublicacion).subscribe(res => {
+      this.refrescar();
+    }, error => {
+      const mensajeError = <any>error;
+
+      console.log(mensajeError);
+
+      if (mensajeError !== null) {
+        this.estado = 'error';
+      }
+    });
+  }
 }

@@ -14,6 +14,28 @@
                 <a [routerLink]="['/perfil', publicacion.usuario._id]" class="text-dark font-weight-bold">{{publicacion.usuario.nombres + ' ' + publicacion.usuario.apellidos}}</a>
                 &nbsp;|&nbsp;<span>{{(publicacion.creadoEn | amFromUnix) | amLocale:'es' | amTimeAgo}}</span>
                 <p class="mb-0 font-weight-bold">{{publicacion.texto}}</p>
+                <div *ngIf="publicacion.usuario._id == identidad._id" class="float-right">
+                  <a class="btn btn-danger" href="#myModal{{ publicacion._id }}" role="button" data-toggle="modal" data-target="#exampleModal" *ngIf="imagen != publicacion._id"><i class="fas fa-trash"></i></a>
+                </div>
+                <div class="float-right" *ngIf="publicacion.archivo != 'null'">
+                  <button class="btn btn-warning text-white mr-2" (click)="mostrarImagen(publicacion._id)" *ngIf="imagen != publicacion._id"><i class="fas fa-image"></i></button>
+                  <button class="btn btn-danger" (click)="ocultarImagen(publicacion._id)" *ngIf="imagen == publicacion._id"><i class="fas fa-times"></i></button>
+                </div>
+                <img src="{{ url + 'obtenerImagenPublicacion/' + publicacion.archivo }}" *ngIf="publicacion.archivo != 'null' && imagen == publicacion._id" class="img-fluid mt-2">
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">¿Seguro que quieres eliminar la publicación?</h5>
+                      </div>
+                      <div class="modal-body">Si la eliminas no podrás recuperarla</div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" (click)="eliminarPublicacion(publicacion._id)" data-dismiss="modal">Eliminar la publicación</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
