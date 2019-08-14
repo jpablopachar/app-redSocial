@@ -17,6 +17,7 @@ import { PublicacionesComponent } from './components/publicaciones/publicaciones
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { SeguidosComponent } from './components/seguidos/seguidos.component';
 import { SeguidoresComponent } from './components/seguidores/seguidores.component';
+import { MensajesModule } from './mensajes/mensajes.module';
 
 @NgModule({
   declarations: [
@@ -31,14 +32,15 @@ import { SeguidoresComponent } from './components/seguidores/seguidores.componen
     PublicacionesComponent,
     PerfilComponent,
     SeguidosComponent,
-    SeguidoresComponent
+    SeguidoresComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     routing,
-    MomentModule
+    MomentModule,
+    MensajesModule
   ],
   providers: [
     appRoutingProviders
