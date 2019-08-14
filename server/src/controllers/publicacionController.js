@@ -140,7 +140,7 @@ controller.subirImagenPublicacion = async (req, res) => {
 }
 
 function eliminarArchivosSubidos(res, imagenPath, mensaje) {
-  fs.unlink(imagenPath, (err) => {
+  fs.unlink(imagenPath, (error) => {
     res.status(200).json({ mensaje });
   });
 }
