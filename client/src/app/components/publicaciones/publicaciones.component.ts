@@ -23,6 +23,7 @@ export class PublicacionesComponent implements OnInit {
   public estado;
   public publicaciones: Publicacion[];
   public elementosPorPagina;
+  public imagen;
   public noMas = false;
   @Input() idUsuario: string;
 
@@ -79,6 +80,32 @@ export class PublicacionesComponent implements OnInit {
     }
 
     this.obtenerPublicaciones(this.idUsuario, this.pagina, true);
+  }
+
+  refrescar(evento = null) {
+    this.obtenerPublicaciones(this.idUsuario, this.pagina);
+  }
+
+  mostrarImagen(idImagen) {
+    this.imagen = idImagen;
+  }
+
+  ocultarImagen(idImagen) {
+    this.imagen = 0;
+  }
+
+  eliminarPublicacion(idPublicacion) {
+    this._publicacionService.eliminarPublicacion(this.token, idPublicacion).subscribe(res => {
+      this.refrescar();
+    }, error => {
+      const mensajeError = <any>error;
+
+      console.log(mensajeError);
+
+      if (mensajeError !== null) {
+        this.estado = 'error';
+      }
+    });
   }
 
 }
