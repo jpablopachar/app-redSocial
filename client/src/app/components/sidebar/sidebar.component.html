@@ -12,19 +12,19 @@
     <hr>
     <div class="estadisticas d-flex justify-content-between text-center">
       <div>
-        <a href="#" class="text-dark font-weight-bold text-decoration-none">
+        <a [routerLink]="['/seguidos', identidad._id, 1]" class="text-dark font-weight-bold text-decoration-none">
           <span class="d-block">Siguiendo</span>
           <span class="d-block text-success">{{estadisticas.seguidos}}</span>
         </a>
       </div>
       <div>
-        <a href="#" class="text-dark font-weight-bold text-decoration-none">
+        <a [routerLink]="['/seguidores', identidad._id, 1]" class="text-dark font-weight-bold text-decoration-none">
           <span class="d-block">Seguidores</span>
-          <span class="d-block text-success">{{estadisticas.seguidos}}</span>
+          <span class="d-block text-success">{{estadisticas.seguidores}}</span>
         </a>
       </div>
       <div>
-        <a href="#" class="text-dark font-weight-bold text-decoration-none">
+        <a [routerLink]="['/perfil', identidad._id]" class="text-dark font-weight-bold text-decoration-none">
           <span class="d-block">Publicaciones</span>
           <span class="d-block text-success">{{estadisticas.publicaciones}}</span>
         </a>

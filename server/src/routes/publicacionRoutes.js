@@ -9,6 +9,6 @@ router.get('/publicacionesUsuario/:idUsuario/:pagina?', asegurarAutenticacion, P
 router.get('/publicacion/:idPublicacion', asegurarAutenticacion, PublicacionController.obtenerPublicacion);
 router.delete('/publicacion/:idPublicacion', asegurarAutenticacion, PublicacionController.eliminarPublicacion);
 router.post('/subirImagenPublicacion/:idPublicacion', asegurarAutenticacion, PublicacionController.subirImagenPublicacion);
-router.get('/obtenerImagenPublicacion/:idPublicacion', asegurarAutenticacion, PublicacionController.obtenerImagenPublicacion);
+router.get('/obtenerImagenPublicacion/:imagenPublicacion', PublicacionController.obtenerImagenPublicacion);
 
 module.exports = router;

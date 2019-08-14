@@ -28,6 +28,33 @@ controller.dejarSeguir = (req, res) => {
   });
 }
 
+async function idsUsuariosSeguimiento(idUsuario) {
+  const seguidos = await Seguimiento.find({ usuario: idUsuario }).select({ '_id': 0, '__v': 0, 'usuario': 0 }).exec().then((seguidos) => {
+    const limpiarSeguidos = [];
+
+    seguidos.forEach((seguido) => {
+      limpiarSeguidos.push(seguido.seguido);
+    });
+
+    return limpiarSeguidos;
+  }).catch(error => { return handleerror(error) });
+
+  const seguidores = await Seguimiento.find({ seguido: idUsuario }).select({ '_id': 0, '__v': 0, 'seguido': 0 }).exec().then((seguidores) => {
+    const limpiarSeguidores = [];
+
+    seguidores.forEach((seguidor) => {
+      limpiarSeguidores.push(seguidor.usuario);
+    });
+
+    return limpiarSeguidores;
+  }).catch(error => { return handleerror(error) });
+
+  return {
+    seguidos,
+    seguidores
+  }
+}
+
 controller.obtenerSeguidos = (req, res) => {
   let { sub } = req.usuario.sub;
   let pagina = 1;
@@ -41,16 +68,20 @@ controller.obtenerSeguidos = (req, res) => {
     pagina = req.params.idUsuario;
   }
 
-  Seguimiento.find({ usuario: sub }).populate({ path: 'seguido' }).paginate(pagina, elementosPorPagina, (error, seguidos, total) => {
+  Seguimiento.find({ usuario: sub }).populate({ path: 'seguido' }).paginate(pagina, elementosPorPagina, (error, seguimientos, total) => {
     if (error) return res.status(500).json({ mensaje: "¡Error en el servidor!" });
 
-    if (!seguidos) return res.status(404).json({ mensaje: "¡No estás siguiendo a ningún usuario!" });
+    if (!seguimientos) return res.status(404).json({ mensaje: "¡No estás siguiendo a ningún usuario!" });
 
-    return res.status(200).json({
-      total,
-      paginas: Math.ceil(total/elementosPorPagina),
-      seguidos
-    });
+    idsUsuariosSeguimiento(sub).then((valor) => {
+      return res.status(200).json({
+        total,
+        paginas: Math.ceil(total/elementosPorPagina),
+        seguimientos,
+        usuariosSeguidos: valor.seguidos,
+        usuariosSeguidores: valor.seguidores
+      });
+    })
   });
 }
 
@@ -67,16 +98,20 @@ controller.obtenerSeguidores = (req, res) => {
     pagina = req.params.idUsuario;
   }
 
-  Seguimiento.find({ seguido: sub }).populate('usuario seguido').paginate(pagina, elementosPorPagina, (error, seguidores, total) => {
+  Seguimiento.find({ seguido: sub }).populate('usuario seguido').paginate(pagina, elementosPorPagina, (error, seguimientos, total) => {
     if (error) return res.status(500).json({ mensaje: "¡Error en el servidor!" });
 
-    if (seguidores.length <= 0) return res.status(404).json({ mensaje: "¡No te sigue ningún usuario!" });
+    if (seguimientos.length <= 0) return res.status(404).json({ mensaje: "¡No te sigue ningún usuario!" });
 
-    return res.status(200).json({
-      total,
-      paginas: Math.ceil(total/elementosPorPagina),
-      seguidores: seguidores
-    });
+    idsUsuariosSeguimiento(sub).then((valor) => {
+      return res.status(200).json({
+        total,
+        paginas: Math.ceil(total/elementosPorPagina),
+        seguimientos,
+        usuariosSeguidos: valor.seguidos,
+        usuariosSeguidores: valor.seguidores
+      });
+    })
   });
 }
 

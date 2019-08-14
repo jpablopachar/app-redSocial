@@ -26,4 +26,26 @@ export class SeguimientoService {
 
     return this._http.delete(this.url + 'seguir/' + idUsuario, {headers: headers});
   }
+
+  obtenerSeguidos(token, idUsuario = null, pagina = 1): Observable<any> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', token);
+    let url = this.url + 'siguiendo';
+
+    if (idUsuario != null) {
+      url = this.url + 'siguiendo/' + idUsuario + '/' + pagina;
+    }
+
+    return this._http.get(url, {headers: headers});
+  }
+
+  obtenerSeguidores(token, idUsuario = null, pagina = 1): Observable<any> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', token);
+    let url = this.url + 'seguidores';
+
+    if (idUsuario != null) {
+      url = this.url + 'seguidores/' + idUsuario + '/' + pagina;
+    }
+
+    return this._http.get(url, {headers: headers});
+  }
 }

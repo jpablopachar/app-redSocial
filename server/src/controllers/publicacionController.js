@@ -101,7 +101,7 @@ controller.eliminarPublicacion = async (req, res) => {
   try {
     const publicacionEliminada = await Publicacion.find({ 'usuario': req.usuario.sub, '_id': req.params.idPublicacion }).remove();
 
-    if(!publicacionEliminada) return res.status(404).json({ mensaje: "¡No se ha eliminado la publicación!" });
+    // if(!publicacionEliminada) return res.status(404).json({ mensaje: "¡No se ha eliminado la publicación!" });
 
     return res.status(200).json({ mensaje: 'Publicación eliminada correctamente' });
 
@@ -139,15 +139,16 @@ controller.subirImagenPublicacion = async (req, res) => {
   }
 }
 
-async function eliminarArchivosSubidos(res, imagenPath, mensaje) {
-  await fs.unlink(imagenPath);
-  res.status(500).json({ mensaje });
+function eliminarArchivosSubidos(res, imagenPath, mensaje) {
+  fs.unlink(imagenPath, (err) => {
+    res.status(200).json({ mensaje });
+  });
 }
 
 controller.obtenerImagenPublicacion = async (req, res) => {
-  const { imagen } = req.params;
+  const { imagenPublicacion } = req.params;
   // Dirección donde se desea ubicar la imágen para obtener y mostrar
-  const imagenPath = path.resolve(`src/public/uploads/publicaciones/${imagen}`);
+  const imagenPath = path.resolve(`src/public/uploads/publicaciones/${imagenPublicacion}`);
 
   // Devuelve true si la imágen existe o false si no existe
   const existe = await fs.exists(imagenPath);

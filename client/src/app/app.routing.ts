@@ -8,6 +8,8 @@ import { EditarUsuarioComponent } from './components/editar-usuario/editar-usuar
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { TimelineComponent } from './components/timeline/timeline.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
+import { SeguidosComponent } from './components/seguidos/seguidos.component';
+import { SeguidoresComponent } from './components/seguidores/seguidores.component';
 
 const appRoutes: Routes = [
   {path: '', component: InicioComponent},
@@ -19,6 +21,8 @@ const appRoutes: Routes = [
   {path: 'usuarios/:pagina', component: UsuariosComponent},
   {path: 'timeline', component: TimelineComponent},
   {path: 'perfil/:idUsuario', component: PerfilComponent},
+  {path: 'seguidos/:idUsuario/:pagina', component: SeguidosComponent},
+  {path: 'seguidores/:idUsuario/:pagina', component: SeguidoresComponent},
   {path: '**', component: InicioComponent}
 ];
 

@@ -1,0 +1,45 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-8">
+      <h1 class="h1-strong">{{ titulo }} {{ usuario.nombres }}</h1>
+      <div class="persona" *ngIf="seguidos">
+        <div *ngFor="let suscrito of seguidos">
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="media">
+                <img src="{{url + 'obtenerImagenUsuario/' + suscrito.seguido.imagen}}" class="mr-3 rounded-circle" width="120px" alt="Imágen del usuario" *ngIf="suscrito.seguido.imagen">
+                <img src="assets/hombre.png" class="mr-3 rounded-circle" width="120px" alt="Imágen del usuario por defecto" *ngIf="!suscrito.seguido.imagen">
+                <div class="media-body my-auto">
+                  <h5 class="font-weight-bold"><a [routerLink]="['/perfil', suscrito.seguido._id]" class="text-dark">{{suscrito.seguido.nombres + ' ' + suscrito.seguido.apellidos}}</a></h5>
+                  <p class="text-gray">{{suscrito.seguido.nombreUsuario}}</p>
+                </div>
+                <!--Seguir / Dejar de seguir-->
+                <div *ngIf="suscrito.seguido._id != identidad._id">
+                  <button class="btn btn-success" *ngIf="seguimientos.indexOf(suscrito.seguido._id) < 0" (click)="seguirUsuario(suscrito.seguido._id)"><i class="fas fa-plus-circle"></i> Seguir</button>
+                  <button class="btn btn-primary" *ngIf="seguimientos.indexOf(suscrito.seguido._id) >= 0" (mouseenter)="mouseEnter(suscrito.seguido._id)" (mouseleave)="mouseLeave(suscrito.seguido._id)" [class.btn-danger]="suscrito.seguido._id == seguimientoUsuarioHover" (click)="dejarDeSeguir(suscrito.seguido._id)">
+                    <div *ngIf="suscrito.seguido._id == seguimientoUsuarioHover; else seguidos">
+                      <i class="fas fa-minus-circle"></i> Dejar de seguir
+                    </div>
+                    <ng-template #seguidos>
+                      <i class="fas fa-check-circle"></i> Siguiendo
+                    </ng-template>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Paginación-->
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-end">
+            <li class="page-item" *ngIf="pagina > 1"><a class="page-link" [routerLink]="['/seguidos', idPaginaUsuario, pagina_anterior]">Anterior</a></li>
+            <li class="page-item" *ngIf="paginas !== pagina"><a class="page-link" [routerLink]="['/seguidos', idPaginaUsuario, pagina_siguiente]">Siguiente</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <app-sidebar></app-sidebar>
+    </div>
+  </div>
+</div>
