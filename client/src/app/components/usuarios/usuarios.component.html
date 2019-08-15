@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-12 col-md-7 col-lg-8 mt-2 mt-md-0">
       <h1 class="h1-strong">{{titulo}}</h1>
       <div class="persona">
         <div *ngFor="let usuario of usuarios">
@@ -14,7 +14,7 @@
                   <p class="text-gray">{{usuario.nombreUsuario}}</p>
                 </div>
                 <!--Seguir / Dejar de seguir-->
-                <div *ngIf="usuario._id != identidad._id">
+                <div *ngIf="usuario._id != identidad._id" class="mt-md-3 mt-lg-0">
                   <button class="btn btn-success" *ngIf="seguimientos.indexOf(usuario._id) < 0" (click)="seguirUsuario(usuario._id)"><i class="fas fa-plus-circle"></i> Seguir</button>
                   <button class="btn btn-primary" *ngIf="seguimientos.indexOf(usuario._id) >= 0" (mouseenter)="mouseEnter(usuario._id)" (mouseleave)="mouseLeave()" [class.btn-danger]="usuario._id == seguimientoUsuarioHover" (click)="dejarDeSeguir(usuario._id)">
                     <div *ngIf="usuario._id == seguimientoUsuarioHover; else siguiendo">
@@ -38,7 +38,7 @@
         </nav>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-5 col-lg-4 d-none d-md-block">
       <app-sidebar></app-sidebar>
     </div>
   </div>

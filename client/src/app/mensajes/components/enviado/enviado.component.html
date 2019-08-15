@@ -1,12 +1,12 @@
 <div class="row">
   <div class="col-md-10">
-    <h3>{{ titulo }}</h3>
+    <h3 class="mt-2 mt-md-0">{{ titulo }}</h3>
     <div class="persona" *ngIf="mensajes">
       <div *ngFor="let mensaje of mensajes">
         <div class="card mb-3">
           <div class="card-body">
             <div class="media">
-              <a href="#" class="mr-md-3">
+              <a href="#" class="mr-md-3 d-none d-md-block">
                 <img src="{{url + 'obtenerImagenUsuario/' + mensaje.emitido.imagen}}" width="120" class="rounded-circle" alt="Imágen del usuario" *ngIf="mensaje.emitido.imagen">
                 <img src="assets/hombre.png" width="120" class="rounded-circle" alt="Imágen del usuario por defecto" *ngIf="!mensaje.emitido.imagen">
               </a>

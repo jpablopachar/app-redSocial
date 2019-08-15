@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-4">
-      <h3>{{ titulo }}</h3>
+    <div class="col-12 col-md-4">
+      <h3 class="mt-2 mt-md-0">{{ titulo }}</h3>
       <div class="list-group">
         <a [routerLinkActive]="['active']" [routerLink]="['enviar']" class="list-group-item list-group-item-action">Enviar mensaje</a>
         <a [routerLinkActive]="['active']" [routerLink]="['recibidos']" class="list-group-item list-group-item-action">Mensajes recibidos</a>
@@ -9,7 +9,7 @@
         <a [routerLink]="['/inicio']" class="list-group-item list-group-item-action">Información</a>
       </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-12 col-md-8">
       <router-outlet></router-outlet>
     </div>
   </div>

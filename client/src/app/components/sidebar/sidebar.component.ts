@@ -33,7 +33,7 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('¡Componente sidebar cargado!');
+    // console.log('¡Componente sidebar cargado!');
   }
 
   enviarPublicacion(form: NgForm, evento) {

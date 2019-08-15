@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-8">
-      <h1 class="h1-strong">{{ titulo }} {{ usuario.nombres }}</h1>
+      <h1 class="h1-strong mt-2 mt-md-0">{{ titulo }} {{ usuario.nombres }}</h1>
       <div class="persona" *ngIf="seguidos">
         <div *ngFor="let suscrito of seguidos">
           <div class="card mb-3">
@@ -38,7 +38,7 @@
         </nav>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 d-none d-md-block">
       <app-sidebar></app-sidebar>
     </div>
   </div>

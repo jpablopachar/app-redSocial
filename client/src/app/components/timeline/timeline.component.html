@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-lg-8">
+    <div class="col-md-7 col-lg-8 order-2 order-md-1 mt-3 mt-md-0">
       <h1 class="h1-strong">{{titulo}} <button class="btn btn-success" (click)="refrescar($event)">Mostrar nuevas</button></h1>
       <div *ngFor="let publicacion of publicaciones">
         <div class="card mb-3">
@@ -10,7 +10,7 @@
                 <img src="{{url + 'obtenerImagenUsuario/' + publicacion.usuario.imagen}}" width="120" class="rounded-circle" alt="Imágen del usuario" *ngIf="publicacion.usuario.imagen">
                 <img src="assets/hombre.png" width="120" class="rounded-circle" alt="Imágen del usuario por defecto" *ngIf="!publicacion.usuario.imagen">
               </a>
-              <div class="media-body my-auto">
+              <div class="media-body my-auto ml-2 ml-md-0">
                 <a [routerLink]="['/perfil', publicacion.usuario._id]" class="text-dark font-weight-bold">{{publicacion.usuario.nombres + ' ' + publicacion.usuario.apellidos}}</a>
                 &nbsp;|&nbsp;<span>{{(publicacion.creadoEn | amFromUnix) | amLocale:'es' | amTimeAgo}}</span>
                 <p class="mb-0 font-weight-bold">{{publicacion.texto}}</p>
@@ -45,6 +45,6 @@
         <button class="btn btn-success" (click)="verMas()" *ngIf="!noMas">Ver más publicaciones</button>
       </div>
     </div>
-    <app-sidebar class="col-lg-4" (enviado)="refrescar($event)"></app-sidebar>
+    <app-sidebar class="col-md-5 col-lg-4 order-1 order-md-2" (enviado)="refrescar($event)"></app-sidebar>
   </div>
 </div>

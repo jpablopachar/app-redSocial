@@ -1,5 +1,5 @@
-<h1 class="h1-strong">Hola, {{identidad.nombreUsuario}}</h1>
-<div class="card">
+<h1 class="h1-strong d-none d-md-block">Hola, {{identidad.nombreUsuario}}</h1>
+<div class="card d-none d-md-block">
   <div class="card-body">
     <div class="media">
       <img src="{{url + 'obtenerImagenUsuario/' + identidad.imagen}}" class="rounded-circle mr-md-3" alt="Imágen del usuario" width="110" *ngIf="identidad.imagen">

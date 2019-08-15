@@ -1,6 +1,6 @@
 <div class="row">
-  <div class="col-md-10">
-    <h3>{{ titulo }}</h3>
+  <div class="col-12 col-md-10">
+    <h3 class="mt-2 mt-md-0">{{ titulo }}</h3>
     <div class="alert alert-success" *ngIf="estado == 'success'" role="alert">
       Mensaje enviado!, revísalo en tus<a [routerLink]="['/mensajes/enviados']"> mensaje enviados</a>
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">

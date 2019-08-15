@@ -22,7 +22,6 @@ export class AppComponent implements OnInit, DoCheck {
 
   ngOnInit() {
     this.identidad = this._usuarioService.obtenerIdentidad();
-    console.log(this.identidad);
   }
 
   // Actualiza el valor de identidad de forma dinámica

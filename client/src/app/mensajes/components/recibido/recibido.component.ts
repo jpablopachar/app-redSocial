@@ -28,7 +28,7 @@ export class RecibidoComponent implements OnInit {
 
   constructor(private _route: ActivatedRoute, private _router: Router, private _usuarioService: UsuarioService,
     private _seguimientoService: SeguimientoService, private _mensajesService: MensajesService) {
-    this.titulo = 'Mensajes enviados';
+    this.titulo = 'Mensajes recibidos';
     this.identidad = this._usuarioService.obtenerIdentidad();
     this.token = this._usuarioService.obtenerToken();
     this.url = GLOBAL.url;

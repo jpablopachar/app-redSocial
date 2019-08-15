@@ -37,7 +37,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('¡Componente usuarios cargado!');
+    // console.log('¡Componente usuarios cargado!');
     this.paginaActual();
   }
 
@@ -69,7 +69,6 @@ export class UsuariosComponent implements OnInit {
 
   obtenerUsuarios(pagina) {
     this._usuarioService.obtenerUsuarios(pagina).subscribe((res) => {
-      console.log(res);
       if (!res.usuarios) {
         this.estado = 'error';
       } else {
