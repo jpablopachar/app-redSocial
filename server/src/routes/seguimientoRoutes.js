@@ -8,5 +8,6 @@ router.delete('/seguir/:idSeguido', asegurarAutenticacion, SeguimientoController
 router.get('/siguiendo/:idUsuario?/:pagina?', asegurarAutenticacion, SeguimientoController.obtenerSeguidos);
 router.get('/seguidores/:idUsuario?/:pagina?', asegurarAutenticacion, SeguimientoController.obtenerSeguidores);
 router.get('/obtenerSeguimientos/:seguido?', asegurarAutenticacion, SeguimientoController.obtenerSeguimientos);
+router.get('/obtenerMisSeguidos/:seguidos?', asegurarAutenticacion, SeguimientoController.obtenerMisSeguidos);
 
 module.exports = router;

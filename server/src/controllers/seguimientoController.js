@@ -127,7 +127,23 @@ controller.obtenerSeguimientos = async (req, res) => {
     if (!seguidos) return res.status(404).json({ mensaje: "¡No sigues a ningún usuario!" });
 
     return res.status(200).json({ seguidos });
+  } catch (error) {
+    return res.status(500).json({ mensaje: "¡Error en el servidor!" });
+  }
+}
 
+controller.obtenerMisSeguidos = async (req, res) => {
+  const { sub } = req.usuario;
+  let suscritos = Seguimiento.find({ usuario: sub });
+
+  if (req.params.seguido) suscritos = Seguimiento.find({ seguido: sub });
+
+  try {
+    const seguidos = await suscritos.populate('usuario seguido').exec();
+
+    if (!seguidos) return res.status(404).json({ mensaje: "¡No sigues a ningún usuario!" });
+
+    return res.status(200).json({ seguidos });
   } catch (error) {
     return res.status(500).json({ mensaje: "¡Error en el servidor!" });
   }
