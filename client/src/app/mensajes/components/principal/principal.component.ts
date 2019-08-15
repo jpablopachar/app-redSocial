@@ -6,10 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./principal.component.css']
 })
 export class PrincipalComponent implements OnInit {
+  public titulo: string;
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor() {
+    this.titulo = 'Mensajes privados';
   }
 
+  ngOnInit() {
+    console.log('¡Componente mensajes principal cargado!');
+  }
 }

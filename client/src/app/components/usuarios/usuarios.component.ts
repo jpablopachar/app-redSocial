@@ -1,9 +1,9 @@
-import { Seguimiento } from './../../models/seguimiento';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { GLOBAL } from 'src/app/services/global';
 import { Usuario } from 'src/app/models/usuario';
+import { Seguimiento } from './../../models/seguimiento';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { SeguimientoService } from './../../services/seguimiento.service';
 

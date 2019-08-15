@@ -1,3 +1,27 @@
-<p>
-  enviado works!
-</p>
+<div class="row">
+  <div class="col-md-10">
+    <h3>{{ titulo }}</h3>
+    <div class="persona" *ngIf="mensajes">
+      <div *ngFor="let mensaje of mensajes">
+        <div class="card mb-3">
+          <div class="card-body">
+            <div class="media">
+              <a href="#" class="mr-md-3">
+                <img src="{{url + 'obtenerImagenUsuario/' + mensaje.emitido.imagen}}" width="120" class="rounded-circle" alt="Imágen del usuario" *ngIf="mensaje.emitido.imagen">
+                <img src="assets/hombre.png" width="120" class="rounded-circle" alt="Imágen del usuario por defecto" *ngIf="!mensaje.emitido.imagen">
+              </a>
+              <div class="media-body my-auto">
+                <a [routerLink]="['/perfil', mensaje.emitido._id]" class="text-dark font-weight-bold">{{mensaje.emitido.nombres + ' ' + mensaje.emitido.apellidos}}</a>
+                &nbsp;|&nbsp;<span> {{ mensaje.emitido.nombreUsuario }}</span>
+                &nbsp;|&nbsp;<span>{{(mensaje.creadoEn | amFromUnix) | amLocale:'es' | amTimeAgo}}</span>
+                &nbsp;|&nbsp;<span>Enviado a: <a [routerLink]="['/perfil', mensaje.recibido._id]" class="text-dark font-weight-bold">{{mensaje.recibido.nombres + ' ' + mensaje.recibido.apellidos}}</a></span>
+                <hr class="my-2">
+                <p class="mb-0 text-break">{{mensaje.texto}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

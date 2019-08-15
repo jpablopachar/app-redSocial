@@ -48,4 +48,10 @@ export class SeguimientoService {
 
     return this._http.get(url, {headers: headers});
   }
+
+  obtenerMisSeguidos(token): Observable<any> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', token);
+
+    return this._http.get(this.url + 'obtenerMisSeguidos/true', {headers: headers});
+  }
 }

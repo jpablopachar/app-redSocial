@@ -10,19 +10,20 @@ import { TimelineComponent } from './components/timeline/timeline.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { SeguidosComponent } from './components/seguidos/seguidos.component';
 import { SeguidoresComponent } from './components/seguidores/seguidores.component';
+import { UsuarioGuard } from './usuario.guard';
 
 const appRoutes: Routes = [
   {path: '', component: InicioComponent},
   {path: 'inicio', component: InicioComponent},
   {path: 'iniciarSesion', component: IniciarSesionComponent},
   {path: 'registrarse', component: RegistrarComponent},
-  {path: 'actualizarUsuario', component: EditarUsuarioComponent},
-  {path: 'usuarios', component: UsuariosComponent},
-  {path: 'usuarios/:pagina', component: UsuariosComponent},
-  {path: 'timeline', component: TimelineComponent},
-  {path: 'perfil/:idUsuario', component: PerfilComponent},
-  {path: 'seguidos/:idUsuario/:pagina', component: SeguidosComponent},
-  {path: 'seguidores/:idUsuario/:pagina', component: SeguidoresComponent},
+  {path: 'actualizarUsuario', component: EditarUsuarioComponent, canActivate: [UsuarioGuard]},
+  {path: 'usuarios', component: UsuariosComponent, canActivate: [UsuarioGuard]},
+  {path: 'usuarios/:pagina', component: UsuariosComponent, canActivate: [UsuarioGuard]},
+  {path: 'timeline', component: TimelineComponent, canActivate: [UsuarioGuard]},
+  {path: 'perfil/:idUsuario', component: PerfilComponent, canActivate: [UsuarioGuard]},
+  {path: 'seguidos/:idUsuario/:pagina', component: SeguidosComponent, canActivate: [UsuarioGuard]},
+  {path: 'seguidores/:idUsuario/:pagina', component: SeguidoresComponent, canActivate: [UsuarioGuard]},
   {path: '**', component: InicioComponent}
 ];
 
